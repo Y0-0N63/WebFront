@@ -53,7 +53,7 @@ const Exam5_5 = () => {
   
   // Each child in a list should have a unique "key" prop
   // : React에서 동적으로 list를 랜더링할 때, 각 자식 컴포넌트가 고유한 key 속성을 가져야 한다는 규칙 위배 시 발생하는 경고
-  // 고유한 key 값을 작성함으로써 경고 해결 가능((member, index) => <li key={index}>)
+  // 고유한 key 값을 작성함으로써 경고 해결 가능((member, index) => <li key={index}>  )
   return <ul>{listItem}</ul>
 }
 
