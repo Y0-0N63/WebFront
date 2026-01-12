@@ -14,6 +14,16 @@ const Exam7 = () => {
       setPortMsg(data);
     })
   }
+
+  const getUserInfo = () => {
+    fetch("http://localhost/getUserInfo", {
+      method : "post",
+      headers : {"Content-Type" : "application/json"},
+      body : JSON.stringify({name : "홍길동", age : 20})
+    })
+    .then(res => res.text())
+    .then(data => setUserMsg(data));
+  }
   
   return(
     <div>
@@ -26,8 +36,8 @@ const Exam7 = () => {
       </ul>
       
       <p>2. 서버로 값 전달 후, 응답받은 값(POST 방식)</p>
-      <button>POST 요청 보내기</button>
-      <p></p>
+      <button onClick={getUserInfo}>POST 요청 보내기</button>
+      <p>{userMsg}</p>
     </div>
   )
 }
