@@ -10,6 +10,7 @@ import Exam4 from './components/Exam4'
 import Exam5 from './components/Exam5'
 import TodoList from './components/TodoList'
 import Exam6 from './components/Exam6'
+import Exam7 from './components/Exam7'
 
 function App() {
   // [변수, 함수] = 상태(state, 반드시 존재하는 것은 아니며 해당 컴포넌트의 현재 값을 담는 변수) >> App에서 사용할 유동적인 값을 담는 변수
@@ -34,7 +35,8 @@ function App() {
       {/* <Exam4 /> */}
       {/* <Exam5 /> */}
       {/* <TodoList /> */}
-      <Exam6 />
+      {/* <Exam6 /> */}
+      <Exam7 />
     </>
   )
 }
