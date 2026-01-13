@@ -1,8 +1,8 @@
 import React from 'react';
 import '../css/DashBoard.css';
-import Restore from './Restore.js';
-import Manager from './Manager.js';
-import Statistics from './Statistics.js';
+import Restore from './Restore.jsx';
+import Manager from './Manager.jsx';
+import Statistics from './Statistics.jsx';
 
 export default function DashBoard() {
 
