@@ -1,21 +1,90 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { axiosApi } from "../api/axiosAPI";
 
 export default function Restore() {
-  return (
-    <div className="menu-box">
-      <section className="section-border">
-        <h2>탈퇴 회원 복구</h2>
+  const [isLoading, setIsLoading] = useState(true);
+  
+  // 탈퇴 회원 목록
+  const [withdrawnMembers, setWithDrawnMembers] = useState(null); 
 
-        <h3>탈퇴한 회원 목록</h3>
+  // 탈퇴한 회원 목록 조회용 함수
+  const getWithdrawnMemberList = async() => {
+    try {
+      const resp = await axiosApi.get("/admin/withdrawnMemberList");
+      
+      if(resp.status === 200) {
+        setWithDrawnMembers(resp.data);
+      }
+    } catch (error) {
+      console.error("탈퇴 회원 목록 조회 중 에러 발생 : ", error);
+    }
+  }
 
-      </section>
+  // 탈퇴한 회원 복구 요청 함수
+  const restoreMember = async(member) => {
+    if(window.confirm(member.memberNickname + "님의 탈퇴를 복구시키겠습니까?")) {
+      try {
+        const resp = await axiosApi.put("/admin/restoreMember", {memberNo : member.memberNo});
+        if(resp.status === 200) {
+          alert("복구되었습니다.");
+          getWithdrawnMemberList();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
 
-      <section className="section-border">
-        <h2>삭제 게시글 복구</h2>
+  // 삭제 게시글 목록
+  // 삭제된 게시글 복구 요청 함수
 
-        <h3>삭제된 게시글 목록</h3>
+  // Restore 컴포넌트가 첫 마운트될 때 실행
+  useEffect(() => {
+    getWithdrawnMemberList();
+  }, []);
 
-      </section>
-    </div>
-  );
+  // withdrawnMembers, deleteBoards 상태가 변경될 때 실행(isLoading 값 변경)
+  useEffect(() => {
+    if(withdrawnMembers != null) {
+      setIsLoading(false);
+    }
+  }, [withdrawnMembers]);
+
+  if(isLoading) {
+    return <h1>Loading...</h1>
+  } else {
+      return (
+      <div className="menu-box">
+        <section className="section-border">
+          <h2>탈퇴 회원 복구</h2>
+  
+          <h3>탈퇴한 회원 목록</h3>
+          {withdrawnMembers.length === 0 ? (
+            <p>탈퇴한 회원이 없습니다.</p>
+          ) : (
+            withdrawnMembers.map((member, index) => {
+              return (
+                // onClick={() => restoreMember(member) 전달인자가 필요하므로 restoreMember()만 작성 X
+                <ul className="ul-board" key={index}>
+                  <li>회원 번호 : {member.memberNo}</li>
+                  <li>회원 이메일 : {member.memberEmail}</li>
+                  <li>회원 닉네임 : {member.memberNickname}</li>
+                  <button className="restoreBtn"
+                    onClick={() => restoreMember(member)}>복구</button>
+                </ul>
+              )
+            })
+          )}
+  
+        </section>
+  
+        <section className="section-border">
+          <h2>삭제 게시글 복구</h2>
+  
+          <h3>삭제된 게시글 목록</h3>
+  
+        </section>
+      </div>
+    );
+  }
 }

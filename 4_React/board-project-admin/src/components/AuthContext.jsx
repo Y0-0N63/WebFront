@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
   
   // 비밀번호 입력 이벤트 핸들러
   const [password, setPassword] = useState("");
-  const changeInputPw = () => {
+  const changeInputPw = (e) => {
     setPassword(e.target.value);
   }
 
